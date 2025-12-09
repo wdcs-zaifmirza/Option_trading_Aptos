@@ -1,0 +1,15 @@
+[package]
+name = "Aptos_Options"
+version = "1.0.0"
+authors = []
+
+[addresses]
+deployer_addr = "0xe42855c223aa90fb4bb3c37e2905a22756451f65a53f10876fe627be5965c7c6"
+[dev-addresses]
+
+[dependencies.AptosFramework]
+git = "https://github.com/aptos-labs/aptos-framework.git"
+rev = "mainnet"
+subdir = "aptos-framework"
+
+[dev-dependencies]
