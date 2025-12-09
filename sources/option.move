@@ -1,17 +1,14 @@
 module deployer_addr::options {
     
     // -- imports -- 
-    use std::signer;
-    use std::error;
+    use std::signer;  
     use std::vector;
-    use std::debug;
 
     use aptos_framework::object::{Self,DeleteRef,TransferRef,ExtendRef,Object};
     use aptos_framework::event::{Self};
     use aptos_framework::coin::{Self, Coin};
     use aptos_framework::aptos_coin::AptosCoin;
     use aptos_framework::timestamp;
-    use aptos_framework::account;
 
     // -- constants error codes --
 
@@ -80,7 +77,6 @@ module deployer_addr::options {
         strike_price: u64,
         deleteRef: DeleteRef,
         transferRef: TransferRef
-
     }
 
     // 3. options vault: coin<Aptos Coin>.
@@ -89,7 +85,8 @@ module deployer_addr::options {
         funds : Coin<AptosCoin>
     }
 
-   // -- event and structs --
+    // -- event and structs --
+    
     // 1. create option 
     #[event]
     struct CreateOptionEvent has store,drop{
@@ -166,7 +163,7 @@ module deployer_addr::options {
         // getting the address of config object 
         let config_object_address = object::create_object_address(&@deployer_addr, NAME);
         // getting the object by address
-        let config_object = object::address_to_object<OptionsConfig>(config_object_address);
+        let _config_object = object::address_to_object<OptionsConfig>(config_object_address);
         // a mutable refrence to the config resource
         let config = borrow_global_mut<OptionsConfig>(config_object_address);
 
@@ -267,8 +264,7 @@ module deployer_addr::options {
         let current_time = timestamp::now_seconds();
         assert!(option.expiry_timestamp > current_time , E_OPTION_IS_EXPIRED);
 
-        // fetch the current price of the option (btc/usd)
-
+        // fetch the current price of the option (btc/usd) from oracle
         let current_price = get_current_price();
 
         let is_in_money = false;
